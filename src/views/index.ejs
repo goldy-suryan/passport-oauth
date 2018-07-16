@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title><%=title%></title>
+    </head>
+    <body>
+        <h1>Home page</h1>
+        <%for(let i = 0; i < url.length; i++) {%>
+        <a href="<%=url[i].redirect%>"><%=url[i].title%></a>
+        <br/>
+        <br/>
+        <%}%>
+    </body>
+</html>
