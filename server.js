@@ -1,6 +1,9 @@
 const express = require('express');
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+const mongoStore = require('connect-mongo')(session);
 const authRoute = require('./src/routes/authRoute');
 const app = express();
 
@@ -20,6 +23,19 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+app.use(session({
+    secret: 'anySecretString',
+    saveUninitialized: true,
+    resave: true,
+    store: new mongoStore({
+        mongooseConnection: mongoose.connection
+    })
+}));
+
+app.use(passport.initialize());
+
+require('./src/config/passport-oauth');
 
 // Routes
 app.get('/', (req, res) => {
